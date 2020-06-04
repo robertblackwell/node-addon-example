@@ -24,6 +24,12 @@
 class CFWorker : public Worker
 {
 public:
+    static UInt32 s_ticks_ms;
+    static UInt32 s_start_delay_ms;
+    static UInt32 s_stop_delay_ms;
+    static void configure(UInt32 ticks_ms, UInt32 start_delay_ms, UInt32 stop_delay_ms);
+
+    static CFWorker* theInstance;
     CFWorker();
     ~CFWorker();
 
@@ -34,11 +40,11 @@ public:
     void stop();
     
     /**
-    * Post a C++ lambda for execution on the threads CFRunLoop
+    * Post a C++ lambda for execution on the workers thread CFRunLoop
     */
     void post(std::function<void()> lambda);
     /**
-    * Post an 'objc' or 'apples 'C' extension' BLOCK for execution on the threads CFRunLoop
+    * Post an 'objc' or 'apples 'C' extension' BLOCK for execution on the workers thread CFRunLoop
     */
     void post(void(^block)());
     void set_up_timer();
@@ -60,5 +66,8 @@ protected:
     std::vector<Job>    m_jobs;
 
 };
+
+
+
 
 #endif /* start_interval_timer_hpp */

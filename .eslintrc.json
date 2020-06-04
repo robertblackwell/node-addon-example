@@ -1,0 +1,21 @@
+{
+	"extends": ["plugin:prettier/recommended"],
+
+	"plugins": ["prettier"],
+
+	"rules": {
+		"prettier/prettier": "error",
+		"no-extra-parens": [
+			0,
+			"all",
+			{
+				"nestedBinaryExpressions": false,
+				"conditionalAssign": false,
+				"returnAssign": false,
+				"enforceForArrowConditionals": false,
+				"enforceForSequenceExpressions": false,
+				"enforceForNewInMemberExpressions": false
+			}
+		]
+	}
+}

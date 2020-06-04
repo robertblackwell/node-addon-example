@@ -1,48 +1,48 @@
 {
-  "name": "napi_workerthread_addon",
-  "version": "0.1.0",
-  "description": "napi addon example that uses a background thread that is not part of the libuv thread pool",
-  "main": "addon.js",
-  "os": [
-    "darwin"
-  ],
-  "engines": {
-    "node": "^8.16.0 || ^10.6.0 || >=11.0.0"
-  },
-  "scripts": {
-    "clean": "node-gyp clean && rm -f addon.node",
-    "build": "node-gyp clean && rm -f addon.node.node && node-gyp rebuild && node-gyp clean",
-    "test": "./node_modules/mocha/bin/mocha test/01_native.js",
-    "prepublishOnly": "npm run build",
-    "xcode": "node-gyp configure -- -f xcode",
-    "clang-format": "clang-format -style=file -i src/*.cpp src/*.h"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/robertblackwell/napi_workerthread_addon.git"
-  },
-  "keywords": [
-    "napi",
-    "addon",
-    "background",
-    "thread",
-    "mac"
-  ],
-  "contributors": [
-    {
-      "name": "Robert Blackwell",
-      "email": "rob@whiteacorn.com"
-    }
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/robertblackwell/node_workerthread_addon/issues"
-  },
-  "homepage": "https://robertblackwell/napi_workerthread_addon",
-  "devDependencies": {},
-  "dependencies": {
-    "async": "^3.1.0",
-    "mocha": "^6.2.0",
-    "node-addon-api": "^1.7.1"
-  }
+	"name": "napi_cfrunloop_addon",
+	"version": "0.1.0",
+	"description": "napi addon example that uses a background thread running a cfrunloop",
+	"main": "addon.js",
+	"os": [
+		"darwin"
+	],
+	"engines": {
+		"node": "^8.16.0 || ^10.6.0 || >=11.0.0"
+	},
+	"scripts": {
+		"clean": "node-gyp clean && rm -f addon.node",
+		"build": "node-gyp clean && rm -f addon.node && node-gyp rebuild",
+		"test": "./node_modules/mocha/bin/mocha test/01_native.js",
+		"prepublishOnly": "npm run build",
+		"xcode": "node-gyp configure -- -f xcode",
+		"clang-format": "clang-format -style=file -i src/*.cpp src/*.h"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/robertblackwell/napi_runloop_addon.git"
+	},
+	"keywords": [
+		"napi",
+		"addon",
+		"background",
+		"thread",
+		"mac"
+	],
+	"contributors": [
+		{
+			"name": "Robert Blackwell",
+			"email": "rob@whiteacorn.com"
+		}
+	],
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/robertblackwell/node_workerthread_addon/issues"
+	},
+	"homepage": "https://robertblackwell/napi_workerthread_addon",
+	"devDependencies": {},
+	"dependencies": {
+		"async": "^3.1.0",
+		"mocha": "^6.2.0",
+		"node-addon-api": "^1.7.1"
+	}
 }

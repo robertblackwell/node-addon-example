@@ -14,12 +14,15 @@
 #include <string>
 #include <vector>
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
 static napi_value
 dummy_js_func(napi_env env, napi_callback_info info)
 {
     TRACE("");
     return nullptr;
 }
+#pragma GCC diagnostic pop
 
 static void
 finalizer(napi_env env, void* finalize_data, void* hint)

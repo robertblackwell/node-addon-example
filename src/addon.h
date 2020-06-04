@@ -11,7 +11,6 @@
 #include "check.h"
 #include "cpp_threadsafe_function.h"
 #include "event.h"
-#include "functions.h"
 #include "threadsafe_function.h"
 #include "worker.h"
 #include "sleep_loop_worker.h"

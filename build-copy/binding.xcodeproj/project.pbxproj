@@ -1,0 +1,593 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		B51375369CC8E9B8E34D5E9A /* All */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 19899C219104A1AC0F7A7F51 /* Build configuration list for PBXAggregateTarget "All" */;
+			buildPhases = (
+			);
+			dependencies = (
+				0A91B83D19CEA370455BE7EA /* PBXTargetDependency */,
+				AA6F5454243F5D7569D19FDB /* PBXTargetDependency */,
+			);
+			name = All;
+			productName = All;
+		};
+		D543BC5DDB87472B832E07B3 /* action_after_build */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = C6680503C9159E1D78A04C68 /* Build configuration list for PBXAggregateTarget "action_after_build" */;
+			buildPhases = (
+				DC17D34BC463318D38C9D9BE /* Copy to ./ */,
+			);
+			dependencies = (
+				D0CB4AB9F62AB996A9C8DA85 /* PBXTargetDependency */,
+			);
+			name = action_after_build;
+			productName = action_after_build;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		007E1E162CF7F0CEFA2EA27B /* arguments.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AD1A3618251057D5B57371A8 /* arguments.cpp */; };
+		6984CEFE6AB9A0E712857281 /* napi_ext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17F7755E0B6189D6358DB68E /* napi_ext.cpp */; };
+		80EDF0835E9E27B8CA18A627 /* logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4F07812C7C9664E7A8D84A9 /* logger.cpp */; };
+		85B4AD5E8CB4D9189116D946 /* cf_worker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3027B22D7D3255F062BA043A /* cf_worker.cpp */; };
+		A471E2CB5438E5CCA0F8058A /* threadsafe_function.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9045FBC89FBFDE838F03D5A3 /* threadsafe_function.cpp */; };
+		A6D6BC37962CBA524E20528A /* worker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2D97269719B5BB3C1E422F9 /* worker.cpp */; };
+		BDA3074A2779B0D9F4899514 /* caller_context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7171B820C6C6029F4D74B5FB /* caller_context.cpp */; };
+		C132A8E5DEC8E9AA9F18F89A /* cpp_threadsafe_function.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C8FD0D40A4CBA7541E202A66 /* cpp_threadsafe_function.cpp */; };
+		C9216A8B2BD5159753207813 /* event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE0EE66D14FA052497B55DF /* event.cpp */; };
+		D10D43CE9242F2631BED859E /* addon.node in Copy to ./ */ = {isa = PBXBuildFile; fileRef = 545932F34D3068CD1F166A17 /* addon.node */; };
+		D52B052700550A2E99408E3A /* addon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 849473475ADDAA15C2B5ABC1 /* addon.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		124776B2153B1FF4AC32A25E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 35108566DD7B7EB466D59581 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D543BC5DDB87472B832E07B3;
+			remoteInfo = action_after_build;
+		};
+		12C97A0C374F4B865EA7B783 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 35108566DD7B7EB466D59581 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 873E6356991A742EB4BDB84D;
+			remoteInfo = addon;
+		};
+		775AAF128BCA16A1121ED9AB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 35108566DD7B7EB466D59581 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 873E6356991A742EB4BDB84D;
+			remoteInfo = addon;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DC17D34BC463318D38C9D9BE /* Copy to ./ */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(SRCROOT)/./";
+			dstSubfolderSpec = 0;
+			files = (
+				D10D43CE9242F2631BED859E /* addon.node in Copy to ./ */,
+			);
+			name = "Copy to ./";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0675D878318711D9B9454A6B /* cpp_threadsafe_function.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cpp_threadsafe_function.h; sourceTree = "<group>"; };
+		0EF3DD1D23BED36500556C2B /* logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = logger.h; sourceTree = "<group>"; };
+		0F59EE7170D1438A70967FF7 /* event.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = event.h; sourceTree = "<group>"; };
+		15E4720FD68C6CFC50CA769C /* napi_ext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = napi_ext.h; sourceTree = "<group>"; };
+		17F7755E0B6189D6358DB68E /* napi_ext.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = napi_ext.cpp; sourceTree = "<group>"; };
+		1E924366FD48FDC562DFD586 /* common.gypi */ = {isa = PBXFileReference; explicitFileType = sourcecode; name = common.gypi; path = "../../Library/Caches/node-gyp/11.9.0/include/node/common.gypi"; sourceTree = "<group>"; };
+		254E833C7BE0347206C55BBB /* addon.node */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = addon.node; sourceTree = BUILT_PRODUCTS_DIR; };
+		29E6C8806A7884EA203A5C95 /* cf_worker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cf_worker.h; sourceTree = "<group>"; };
+		2EE0EE66D14FA052497B55DF /* event.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = event.cpp; sourceTree = "<group>"; };
+		3027B22D7D3255F062BA043A /* cf_worker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cf_worker.cpp; sourceTree = "<group>"; };
+		33A1AF5F0EE1474FA97C6FB1 /* addon.gypi */ = {isa = PBXFileReference; explicitFileType = sourcecode; name = addon.gypi; path = "../../../../usr/local/lib/node_modules/npm/node_modules/node-gyp/addon.gypi"; sourceTree = "<group>"; };
+		545932F34D3068CD1F166A17 /* addon.node */ = {isa = PBXFileReference; lastKnownFileType = text; path = addon.node; sourceTree = "<group>"; };
+		5994D4CAAF6CF72A4AD8621C /* binding.gyp */ = {isa = PBXFileReference; explicitFileType = sourcecode; path = binding.gyp; sourceTree = "<group>"; };
+		59DFAB44DF0C6199B5CC4EED /* caller_context.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = caller_context.h; sourceTree = "<group>"; };
+		65D7A7B22DF71696899C6911 /* arguments.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = arguments.h; sourceTree = "<group>"; };
+		6EFC456C01D8BDE11462EDF1 /* worker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = worker.h; sourceTree = "<group>"; };
+		7171B820C6C6029F4D74B5FB /* caller_context.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = caller_context.cpp; sourceTree = "<group>"; };
+		849473475ADDAA15C2B5ABC1 /* addon.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = addon.cpp; sourceTree = "<group>"; };
+		86DA05936966AB7017271718 /* config.gypi */ = {isa = PBXFileReference; explicitFileType = sourcecode; name = config.gypi; path = build/config.gypi; sourceTree = "<group>"; };
+		9045FBC89FBFDE838F03D5A3 /* threadsafe_function.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = threadsafe_function.cpp; sourceTree = "<group>"; };
+		AD1A3618251057D5B57371A8 /* arguments.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = arguments.cpp; sourceTree = "<group>"; };
+		C8FD0D40A4CBA7541E202A66 /* cpp_threadsafe_function.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cpp_threadsafe_function.cpp; sourceTree = "<group>"; };
+		E4F07812C7C9664E7A8D84A9 /* logger.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logger.cpp; sourceTree = "<group>"; };
+		ED5F29D8E6C8C41BFE880592 /* addon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = addon.h; sourceTree = "<group>"; };
+		F2D97269719B5BB3C1E422F9 /* worker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = worker.cpp; sourceTree = "<group>"; };
+		FD04E1FBDF87C7F830FFC992 /* threadsafe_function.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = threadsafe_function.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B7D294D848E546EA77AAF58B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		15291DD4BD9BB8161EB8C71E /* src */ = {
+			isa = PBXGroup;
+			children = (
+				849473475ADDAA15C2B5ABC1 /* addon.cpp */,
+				ED5F29D8E6C8C41BFE880592 /* addon.h */,
+				AD1A3618251057D5B57371A8 /* arguments.cpp */,
+				65D7A7B22DF71696899C6911 /* arguments.h */,
+				7171B820C6C6029F4D74B5FB /* caller_context.cpp */,
+				59DFAB44DF0C6199B5CC4EED /* caller_context.h */,
+				3027B22D7D3255F062BA043A /* cf_worker.cpp */,
+				29E6C8806A7884EA203A5C95 /* cf_worker.h */,
+				C8FD0D40A4CBA7541E202A66 /* cpp_threadsafe_function.cpp */,
+				0675D878318711D9B9454A6B /* cpp_threadsafe_function.h */,
+				2EE0EE66D14FA052497B55DF /* event.cpp */,
+				0F59EE7170D1438A70967FF7 /* event.h */,
+				0EF3DD1D23BED36500556C2B /* logger.h */,
+				E4F07812C7C9664E7A8D84A9 /* logger.cpp */,
+				17F7755E0B6189D6358DB68E /* napi_ext.cpp */,
+				15E4720FD68C6CFC50CA769C /* napi_ext.h */,
+				9045FBC89FBFDE838F03D5A3 /* threadsafe_function.cpp */,
+				FD04E1FBDF87C7F830FFC992 /* threadsafe_function.h */,
+				F2D97269719B5BB3C1E422F9 /* worker.cpp */,
+				6EFC456C01D8BDE11462EDF1 /* worker.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		21D2FDC9FC6BFC0511DED52A /* BUILT_PRODUCTS_DIR */ = {
+			isa = PBXGroup;
+			children = (
+				545932F34D3068CD1F166A17 /* addon.node */,
+			);
+			name = BUILT_PRODUCTS_DIR;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		27509A491FCD1F5743436177 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				21D2FDC9FC6BFC0511DED52A /* BUILT_PRODUCTS_DIR */,
+				15291DD4BD9BB8161EB8C71E /* src */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		31103589EDAD12F7C0BFBA22 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				254E833C7BE0347206C55BBB /* addon.node */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		38885F38CBC875FB50D53A58 /* Build */ = {
+			isa = PBXGroup;
+			children = (
+				33A1AF5F0EE1474FA97C6FB1 /* addon.gypi */,
+				5994D4CAAF6CF72A4AD8621C /* binding.gyp */,
+				1E924366FD48FDC562DFD586 /* common.gypi */,
+				86DA05936966AB7017271718 /* config.gypi */,
+			);
+			name = Build;
+			sourceTree = "<group>";
+		};
+		CE1625FFB3C961F8F90D7E10 = {
+			isa = PBXGroup;
+			children = (
+				27509A491FCD1F5743436177 /* Source */,
+				31103589EDAD12F7C0BFBA22 /* Products */,
+				38885F38CBC875FB50D53A58 /* Build */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		873E6356991A742EB4BDB84D /* addon */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E402C3FD8D268DF2483EC6D6 /* Build configuration list for PBXNativeTarget "addon" */;
+			buildPhases = (
+				652D6F8A2A8EB900657F914B /* Sources */,
+				B7D294D848E546EA77AAF58B /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = addon;
+			productName = addon;
+			productReference = 254E833C7BE0347206C55BBB /* addon.node */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		35108566DD7B7EB466D59581 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+			};
+			buildConfigurationList = 4C650493AFEDDCC6E69C8CC5 /* Build configuration list for PBXProject "binding" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CE1625FFB3C961F8F90D7E10;
+			projectDirPath = ..;
+			projectRoot = "";
+			targets = (
+				B51375369CC8E9B8E34D5E9A /* All */,
+				873E6356991A742EB4BDB84D /* addon */,
+				D543BC5DDB87472B832E07B3 /* action_after_build */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		652D6F8A2A8EB900657F914B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D52B052700550A2E99408E3A /* addon.cpp in Sources */,
+				007E1E162CF7F0CEFA2EA27B /* arguments.cpp in Sources */,
+				BDA3074A2779B0D9F4899514 /* caller_context.cpp in Sources */,
+				C9216A8B2BD5159753207813 /* event.cpp in Sources */,
+				6984CEFE6AB9A0E712857281 /* napi_ext.cpp in Sources */,
+				A471E2CB5438E5CCA0F8058A /* threadsafe_function.cpp in Sources */,
+				C132A8E5DEC8E9AA9F18F89A /* cpp_threadsafe_function.cpp in Sources */,
+				85B4AD5E8CB4D9189116D946 /* cf_worker.cpp in Sources */,
+				A6D6BC37962CBA524E20528A /* worker.cpp in Sources */,
+				80EDF0835E9E27B8CA18A627 /* logger.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0A91B83D19CEA370455BE7EA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 873E6356991A742EB4BDB84D /* addon */;
+			targetProxy = 775AAF128BCA16A1121ED9AB /* PBXContainerItemProxy */;
+		};
+		AA6F5454243F5D7569D19FDB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D543BC5DDB87472B832E07B3 /* action_after_build */;
+			targetProxy = 124776B2153B1FF4AC32A25E /* PBXContainerItemProxy */;
+		};
+		D0CB4AB9F62AB996A9C8DA85 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 873E6356991A742EB4BDB84D /* addon */;
+			targetProxy = 12C97A0C374F4B865EA7B783 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		41E460EEFC490E0BF1623EF4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++1y";
+				CLANG_CXX_LIBRARY = "libc++";
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EXECUTABLE_EXTENSION = node;
+				EXECUTABLE_PREFIX = "";
+				GCC_CW_ASM_SYNTAX = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_PASCAL_STRINGS = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"NODE_GYP_MODULE_NAME=addon",
+					"USING_UV_SHARED=1",
+					"USING_V8_SHARED=1",
+					"V8_DEPRECATION_WARNINGS=1",
+					"_DARWIN_USE_64_BIT_INODE=1",
+					_LARGEFILE_SOURCE,
+					"_FILE_OFFSET_BITS=64",
+					BUILDING_NODE_EXTENSION,
+				);
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/include/node",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/src",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/deps/openssl/config",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/deps/openssl/openssl/include",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/deps/uv/include",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/deps/zlib",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/deps/v8/include",
+					"/Users/robertblackwell/MyJSPackages/napi_cfrunloop/node_modules/node-addon-api",
+				);
+				MACH_O_TYPE = mh_bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_CFLAGS = "-fno-strict-aliasing";
+				OTHER_LDFLAGS = (
+					"-Wl,-bind_at_load",
+					"-framework",
+					CoreFoundation,
+					"-framework",
+					CoreServices,
+					"-undefined",
+					dynamic_lookup,
+					"-Wl,-no_pie",
+					"-Wl,-search_paths_first",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = addon;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wendif-labels",
+					"-W",
+					"-Wno-unused-parameter",
+				);
+			};
+			name = Release;
+		};
+		4B428DF12F028D3120F543F3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = All;
+			};
+			name = Debug;
+		};
+		6E6920ED8E0647812495A381 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INTERMEDIATE_DIR = "$(PROJECT_DERIVED_FILE_DIR)/$(CONFIGURATION)";
+				SHARED_INTERMEDIATE_DIR = "$(SYMROOT)/DerivedSources/$(CONFIGURATION)";
+			};
+			name = Debug;
+		};
+		87E2A787B6E0C882158D091B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = All;
+			};
+			name = Release;
+		};
+		9DB1FB0768EF0F6CC3A426FD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++1y";
+				CLANG_CXX_LIBRARY = "libc++";
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EXECUTABLE_EXTENSION = node;
+				EXECUTABLE_PREFIX = "";
+				GCC_CW_ASM_SYNTAX = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_PASCAL_STRINGS = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"NODE_GYP_MODULE_NAME=addon",
+					"USING_UV_SHARED=1",
+					"USING_V8_SHARED=1",
+					"V8_DEPRECATION_WARNINGS=1",
+					"_DARWIN_USE_64_BIT_INODE=1",
+					_LARGEFILE_SOURCE,
+					"_FILE_OFFSET_BITS=64",
+					BUILDING_NODE_EXTENSION,
+					DEBUG,
+					_DEBUG,
+					V8_ENABLE_CHECKS,
+				);
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/include/node",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/src",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/deps/openssl/config",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/deps/openssl/openssl/include",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/deps/uv/include",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/deps/zlib",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/deps/v8/include",
+					"/Users/robertblackwell/MyJSPackages/napi_cfrunloop/node_modules/node-addon-api",
+				);
+				MACH_O_TYPE = mh_bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_CFLAGS = "-fno-strict-aliasing";
+				OTHER_LDFLAGS = (
+					"-Wl,-bind_at_load",
+					"-framework",
+					CoreFoundation,
+					"-framework",
+					CoreServices,
+					"-undefined",
+					dynamic_lookup,
+					"-Wl,-no_pie",
+					"-Wl,-search_paths_first",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = addon;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wendif-labels",
+					"-W",
+					"-Wno-unused-parameter",
+				);
+			};
+			name = Debug;
+		};
+		C1685429910C0A683EAB25E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++1y";
+				CLANG_CXX_LIBRARY = "libc++";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_CW_ASM_SYNTAX = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_PASCAL_STRINGS = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"NODE_GYP_MODULE_NAME=action_after_build",
+					"USING_UV_SHARED=1",
+					"USING_V8_SHARED=1",
+					"V8_DEPRECATION_WARNINGS=1",
+					"_DARWIN_USE_64_BIT_INODE=1",
+					_LARGEFILE_SOURCE,
+					"_FILE_OFFSET_BITS=64",
+					DEBUG,
+					_DEBUG,
+					V8_ENABLE_CHECKS,
+				);
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/include/node",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/src",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/deps/openssl/config",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/deps/openssl/openssl/include",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/deps/uv/include",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/deps/zlib",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/deps/v8/include",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_CFLAGS = "-fno-strict-aliasing";
+				OTHER_LDFLAGS = (
+					"-Wl,-no_pie",
+					"-Wl,-search_paths_first",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = action_after_build;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wendif-labels",
+					"-W",
+					"-Wno-unused-parameter",
+				);
+			};
+			name = Debug;
+		};
+		C34411ACF88D5B12C3D104BB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++1y";
+				CLANG_CXX_LIBRARY = "libc++";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_CW_ASM_SYNTAX = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_PASCAL_STRINGS = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"NODE_GYP_MODULE_NAME=action_after_build",
+					"USING_UV_SHARED=1",
+					"USING_V8_SHARED=1",
+					"V8_DEPRECATION_WARNINGS=1",
+					"_DARWIN_USE_64_BIT_INODE=1",
+					_LARGEFILE_SOURCE,
+					"_FILE_OFFSET_BITS=64",
+				);
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/include/node",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/src",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/deps/openssl/config",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/deps/openssl/openssl/include",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/deps/uv/include",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/deps/zlib",
+					"/Users/robertblackwell/Library/Caches/node-gyp/11.9.0/deps/v8/include",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_CFLAGS = "-fno-strict-aliasing";
+				OTHER_LDFLAGS = (
+					"-Wl,-no_pie",
+					"-Wl,-search_paths_first",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = action_after_build;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wendif-labels",
+					"-W",
+					"-Wno-unused-parameter",
+				);
+			};
+			name = Release;
+		};
+		F0FE067650554857AB1E411A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INTERMEDIATE_DIR = "$(PROJECT_DERIVED_FILE_DIR)/$(CONFIGURATION)";
+				SHARED_INTERMEDIATE_DIR = "$(SYMROOT)/DerivedSources/$(CONFIGURATION)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		19899C219104A1AC0F7A7F51 /* Build configuration list for PBXAggregateTarget "All" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87E2A787B6E0C882158D091B /* Release */,
+				4B428DF12F028D3120F543F3 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 1;
+			defaultConfigurationName = Release;
+		};
+		4C650493AFEDDCC6E69C8CC5 /* Build configuration list for PBXProject "binding" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F0FE067650554857AB1E411A /* Release */,
+				6E6920ED8E0647812495A381 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 1;
+			defaultConfigurationName = Release;
+		};
+		C6680503C9159E1D78A04C68 /* Build configuration list for PBXAggregateTarget "action_after_build" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C34411ACF88D5B12C3D104BB /* Release */,
+				C1685429910C0A683EAB25E2 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 1;
+			defaultConfigurationName = Release;
+		};
+		E402C3FD8D268DF2483EC6D6 /* Build configuration list for PBXNativeTarget "addon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				41E460EEFC490E0BF1623EF4 /* Release */,
+				9DB1FB0768EF0F6CC3A426FD /* Debug */,
+			);
+			defaultConfigurationIsVisible = 1;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 35108566DD7B7EB466D59581 /* Project object */;
+}

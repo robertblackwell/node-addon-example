@@ -8,21 +8,43 @@
 #include "logger.h"
 #include "cf_worker.h"
 
+UInt32 CFWorker::s_ticks_ms = 1000;
+UInt32 CFWorker::s_start_delay_ms = 10;
+UInt32 CFWorker::s_stop_delay_ms = 12;
+
+CFWorker* CFWorker::theInstance = nullptr;
+void CFWorker::configure(UInt32 ticks_ms, UInt32 start_delay_ms, UInt32 stop_delay_ms)
+{
+    CFWorker::s_ticks_ms = ticks_ms;
+    CFWorker::s_start_delay_ms = start_delay_ms;
+    CFWorker::s_stop_delay_ms = stop_delay_ms;
+}
+
 CFWorker* CFWorker::getInstance()
 {
+#ifdef SINGLETON_STATIC
     static CFWorker* theInstance = new CFWorker();
     return theInstance;
+#else
+    // normally in a multi-thead context a singleton would require some
+    // synchronization here - but in this example getInstance() is only ever called
+    // from start() which means the node main thread runloop therefore there is never
+    // a chance of thread collision
+    if (theInstance == nullptr) {
+        theInstance = new CFWorker();
+    }
+    return theInstance;
+#endif
 }
 
 void CFWorker::set_up_timer()
 {
-    /// at this point we should be on the new thread
+    /// at this point we should be on the worker thread
     m_cf_runloop = CFRunLoopGetCurrent();
     CFTimeInterval interval = 1.0;
     CFTimeInterval timer_start_delay = 0.0;
     CFAbsoluteTime FireTime = CFAbsoluteTimeGetCurrent() + timer_start_delay;
     CFRunLoopTimerRef timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, FireTime, interval, 0, 0, ^(CFRunLoopTimerRef timer) {
-        // handle_timer() is virtual gets overridden by derived classes
         handle_timer(timer);
     }); // end of timer handler
     CFRunLoopAddTimer(m_cf_runloop, timer, kCFRunLoopDefaultMode);
@@ -30,15 +52,18 @@ void CFWorker::set_up_timer()
 
 CFWorker::CFWorker() : m_jobs(std::vector<Job>())
 {
+    // at this point running on the node/libuv thread and loop
     m_is_active = false;
     m_stop_flag = false;
     m_dummy_var = "not active";
     TRACE("before starting thread dummy_var " << m_dummy_var);
-//    m_thread = std::thread(&WorkerThread::internalRunloop, this);
-//    int status = pthread_create(&m_thread, NULL, thread_func2, (void*)this);
     m_thread = std::thread([&](){
+        // now running on worker thread
         m_cf_runloop = CFRunLoopGetCurrent();
         set_up_timer();
+        // send a block to the worker runloop for execution
+        // this block will notify the start() call on the libuv main thread 
+        // that the worker loop is running
         post([&](){
             TRACE("post after create timer before m_running_cv.notify thread: " << pthread_self());
             {
@@ -51,7 +76,10 @@ CFWorker::CFWorker() : m_jobs(std::vector<Job>())
         });
         TRACE("before CFRunLoopRun" << pthread_self());
         CFRunLoopRun();
+        // runloop is dead - now cannot stop the worker from ending
+        // notify everyone 'stopped'
         send_stop_to_all();
+        // if stop had a callback - call it here -
         TRACE("after CFRunLoopRun" << pthread_self());
         {
             std::lock_guard<std::mutex> lck(m_lock);
@@ -75,19 +103,21 @@ CFWorker::CFWorker() : m_jobs(std::vector<Job>())
 }
 CFWorker::~CFWorker()
 {
-
+    CFWorker::theInstance = nullptr;
 }
 void CFWorker::handle_timer(CFRunLoopTimerRef timer)
 {
     TRACE(timer);
     oneloop();
 }
+// post a C++ lambda to the workers CFRunloop
 void CFWorker::post(std::function<void()> lambda)
 {
     CFRunLoopPerformBlock(m_cf_runloop, kCFRunLoopDefaultMode,^() {
         lambda();
     });
 }
+// post a Clang C-block to the workers CFRunloop
 void CFWorker::post(void(^block)())
 {
     CFRunLoopPerformBlock(m_cf_runloop, kCFRunLoopDefaultMode,^() {
@@ -123,25 +153,28 @@ UInt32 CFWorker::remove_caller(CallerContext* caller)
     m_jobs.erase(m_jobs.begin() + index);
     return index;;
 }
+// initiate a cancel for a specific CallerContext
 void CFWorker::cancel(CallerContext* caller, EventHandler eventHandler)
 {
     TRACE("cancel entry m_dummy_var: " << m_dummy_var << " thread: " << pthread_self());
     // check the run loop has not stopped or is not stopping, needs lock protection
-    // as this is called from the node thread.
+    // as this is called from the node/libuv thread.
     {
         std::lock_guard<std::mutex> lck(m_lock);
         if ((m_cf_runloop == nullptr) || (!m_is_active))
             return;
     }
     // post a block to the runloop that will remove a caller from the m_jobs list
+    // by posting to the worker runloop there is no contention
     post([this, caller, eventHandler](){
-        UInt32 index = remove_caller(caller);
+        UInt32 index = find_caller(caller);
         TRACE("cancel post - remove_caller index : " << index);
         if (index >= 0) {
             // the caller was found - remove it
             Job found_job = m_jobs[index];
             std::string label = found_job.label;
             // if the removed job was the last send "cancelled_last" otherwise "cancelled"
+            m_jobs.erase(m_jobs.begin() + index);
             std::string event_name = (m_jobs.size() == 0) ? "cancelled_last" : "cancelled";
             Event* ev = Event::New(event_name, label, 0);
             eventHandler(caller, ev);
@@ -158,8 +191,9 @@ void CFWorker::stop()
 {
     TRACE("stop before CFRunLoopStop  m_dummy_var: " << m_dummy_var << " thread: " << pthread_self());
     // check the run loop has not stopped or is not stopping, needs lock protection
-    // as this is called from the node thread.
+    // as this is called from the node/libuv main thread.
     {
+        // deliberately creating a scope
         std::lock_guard<std::mutex> lck(m_lock);
         if ((m_cf_runloop == nullptr) || (!m_is_active))
             return;
@@ -172,6 +206,7 @@ void CFWorker::stop()
     // wait for the run loop to stop
     TRACE("stop after CFRunLoopStop  before wait m_dummy_var: " << m_dummy_var << " thread: " << pthread_self());
     {
+        // deliberately creating a scope
         std::unique_lock<std::mutex> unique_lck(m_lock);
         m_running_cv.wait(unique_lck, [&]() -> bool{
             return ! m_is_active;
@@ -188,7 +223,6 @@ void CFWorker::send_stop_to_all()
     TRACE("");
     for (UInt32 j = 0; j < m_jobs.size(); j++) {
         TRACE("stopping " << j);
-        
         Event* ev = Event::New("stopped", m_jobs[j].label, 0);
         m_jobs[j].eventHandler(m_jobs[j].caller, ev);
     }
@@ -209,11 +243,14 @@ bool CFWorker::oneloop()
     if (m_stop_flag) {
         return false;
     } else {
-        if (m_jobs.size() == 0)
+        if (m_jobs.size() == 0) {
+            std::cout << "oneloop - loop " << m_jobs.size() << std::endl;
             return m_stop_flag;
+        }
         // Decrement counter for each active caller and remember those that expired
         // Decrement the repeat count for each expired caller and if the
         // repeat count is NOT exhausted refresh the interval counter
+        std::cout << "oneloop - loop start " << m_jobs.size() << std::endl;
         for (unsigned long j = 0; j < m_jobs.size(); j++) {
             for (unsigned long i = 0; i < m_jobs[0].items.size(); i++) {
                 
@@ -247,7 +284,7 @@ bool CFWorker::oneloop()
             CallerContext* an_active_caller = m_jobs[triggered_job_index].caller;
             EventHandler evh = m_jobs[triggered_job_index].eventHandler;
             
-            auto triggered_interval = m_jobs[triggered_job_index].items[triggered_job_index];
+            // auto triggered_interval = m_jobs[triggered_job_index].items[triggered_job_index];
             auto ident = m_jobs[triggered_job_index].items[triggered_interval_index].ident;
             auto repeats_counter = m_jobs[triggered_job_index].items[triggered_interval_index].repeats_counter;
             auto label = m_jobs[triggered_job_index].label;
@@ -255,5 +292,7 @@ bool CFWorker::oneloop()
             evh(an_active_caller, ev);
         }
     } // else
+    std::cout << "oneloop - loop end " << m_jobs.size() << std::endl;
+
     return !m_stop_flag;
 }

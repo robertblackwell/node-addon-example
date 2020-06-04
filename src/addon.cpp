@@ -4,6 +4,7 @@
 #include <napi.h>
 #include "addon.h"
 #include "logger.h"
+#include "cf_worker.h"
 #define THROW_AS_JAVASCRIPT_EXCEPTION(x) \
 do {                                                                \
     /*TRACE( x );*/                                                     \
@@ -48,7 +49,7 @@ call_js(napi_env env, napi_value callback, void* context, void* data)
     Event* event = (Event*)data;
     TRACE("env : [" << env << "] context : [" << std::hex << context << "] data : [" << std::hex << data << "] type " << event->_type);
     CallerContext* cc = (CallerContext*)context;
-    Worker* w = cc->worker_ptr;
+    // Worker* w = cc->worker_ptr;
 
     if ((env == nullptr) || (callback == nullptr)) {
         TRACE("env is 0 - the call back is closed - get out of here");
@@ -71,6 +72,11 @@ call_js(napi_env env, napi_value callback, void* context, void* data)
                 delete w;
             }
 #endif
+            if ((event->_type == "cancelled")||(event->_type == "cancelled_last")) {
+                TRACE("cancelled event" << event->_type);
+                std::cout << event->_type << std::endl;
+                cc->cancel_tsf.release();
+            }
             return;
         } else if (status == napi_pending_exception) {
             TRACE("not ok - exception is pending - can not do anything about "
@@ -86,7 +92,7 @@ call_js(napi_env env, napi_value callback, void* context, void* data)
 
 /**
 * configures the addon - mostly for testing purposes.
-* Aslo demonstrates how to return an object to the javascript caller
+* Also demonstrates how to return an object to the javascript caller
 */
 napi_value
 configure(napi_env env, napi_callback_info info)
@@ -97,24 +103,27 @@ configure(napi_env env, napi_callback_info info)
     if (length != 3) {
         THROW_AS_JAVASCRIPT_EXCEPTION("configure expects 3 arguments");
     }
+    // this is how one creates and fills in properties of a Napi::Object
     Napi::Object res = Napi::Object::New(napi_env);
-    res["ticks_ms"] = Worker::s_ticks_ms;
-    res["start_delay_ms"] = Worker::s_start_delay_ms;
-    res["stop_delay_ms"] = Worker::s_stop_delay_ms;
-
+    res["ticks_ms"] = CFWorker::s_ticks_ms;
+    res["start_delay_ms"] = CFWorker::s_start_delay_ms;
+    res["stop_delay_ms"] = CFWorker::s_stop_delay_ms;
+    
+    // this is how one extracts arguments from an Addon function 
     UInt32 ticks_ms = napi_info[0].As<Napi::Number>().Int32Value();
     UInt32 start_delay_ms = napi_info[1].As<Napi::Number>().Int32Value();
     UInt32 stop_delay_ms = napi_info[2].As<Napi::Number>().Int32Value();
-    configure<Worker>(ticks_ms, start_delay_ms, stop_delay_ms);
-    Worker::s_ticks_ms = napi_info[0].As<Napi::Number>().Int32Value();
-    Worker::s_start_delay_ms = napi_info[1].As<Napi::Number>().Int32Value();
-    Worker::s_stop_delay_ms = napi_info[2].As<Napi::Number>().Int32Value();
+
+    CFWorker::configure(ticks_ms, start_delay_ms, stop_delay_ms);
+    CFWorker::s_ticks_ms = napi_info[0].As<Napi::Number>().Int32Value();
+    CFWorker::s_start_delay_ms = napi_info[1].As<Napi::Number>().Int32Value();
+    CFWorker::s_stop_delay_ms = napi_info[2].As<Napi::Number>().Int32Value();
     
     return napi_value(res);
 }
 
 /**
-* demonstrate accessing arguments, returnin a value and how to handle errors
+* demonstrate accessing arguments, returning a value and how to handle errors
 * NativeAddon.demo(astringArgument);    will return a string with the name of the demo function + the argument
 * NativeAddon.demo(astringargument, 1)  will trigger a std::string exception
 * NativeAddon.demo(astringargument, 2)  will trigger a Napi::Error (sub class of std::exception)
@@ -220,11 +229,11 @@ start(napi_env env, napi_callback_info info)
         if (!arg1Value.IsFunction()) {
             throw Napi::Error::New(napi_env, "expected argv[1] to be a callback function ");
         }
-        Napi::Function callbackFunction = arg1Value.As<Napi::Function>();
+        // Napi::Function callbackFunction = arg1Value.As<Napi::Function>();
 
         ///
         /// Need to create a data structure to hold context data for each call
-        /// to function start() This will be, wrapped into an opaque object ad
+        /// to function start(). This will be wrapped into an opaque object and
         /// passed back as the return value of a start() call.
         ///
         caller_context = new CallerContext(napi_env, arg0);
@@ -234,13 +243,13 @@ start(napi_env env, napi_callback_info info)
         /// -   a function called CallJs
         /// -   and some other napi magic
         /// So that from the worker thread we can schedule the node/js callback
-        /// to be run on the main threads run loop. However the node runtime
+        /// to be run on the main node threads run loop. However the node runtime
         /// does not call the node/js callback but rather calls the CallJs
         /// function whose job is to build an array of arguments to be passed to
         /// the node/js callback. If CallJs is NOT provided the node/js callback
         /// is called with no arguments and this==undefined. Since we want to
         /// pass event objects to the node/js callback we need to provide a
-        /// CallJs function that does that job. the CallJs function is internal
+        /// CallJs function that does that job. The CallJs function is internal
         /// to TSFunction class
         ///
         caller_context->env = env;
@@ -268,7 +277,7 @@ start(napi_env env, napi_callback_info info)
         } /*cpp_callback*/);
         #endif
         ///
-        /// Now w can start the real work - the details are hidden in the
+        /// Now we can start the real work - the details are hidden in the
         /// following function call. The significant thing here is that this
         /// call returns a pointer to a 'context object' that provides the info
         /// that other addon functions require to perform their job.
@@ -333,7 +342,7 @@ start(napi_env env, napi_callback_info info)
         /// Back at the level of the addon functions I want to catch any c++
         /// exception and turn it into js Error().
         ///
-        /// the napi_throw_error call queues a JS Error and the return NULL
+        /// the napi_throw_error call queues a JS Error and the return NULLPTR
         /// triggers it into action.
         ///
     }
@@ -353,18 +362,30 @@ cancel(napi_env env, napi_callback_info info)
         TRACE("cancel called");
         Napi::CallbackInfo napi_info(env, info);
         Napi::Env napi_env = napi_info.Env();
-        if (napi_info.Length() != 1) {
+        if (napi_info.Length() != 2) {
             Napi::Error::New(napi_env, std::string(__PRETTY_FUNCTION__) + std::string(" function 'cancel' expects 1 argument" )).ThrowAsJavaScriptException();
         }
         Napi::Value arg0Value = napi_info[0];
         CallerContext* caller_context = arg0Value.As<Napi::External<CallerContext>>().Data();
-        
+
+        // now get the callback - argument 2 or arg[1]
+        Napi::Value arg1Value = napi_info[1];
+        if (!arg1Value.IsFunction()) {
+            throw Napi::Error::New(napi_env, "expected argv[1] to be a callback function ");
+        }
+        // Napi::Function callbackFunction = arg1Value.As<Napi::Function>();
+        caller_context->env = env;
+        caller_context->cancel_tsf = TSFunction::New(arg1Value.As<Napi::Function>(), caller_context, call_js);
+
         /// we probably dont need to cast this to a specific worker type
-        WORKER_CLASS* wt = dynamic_cast<WORKER_CLASS*>(caller_context->worker_ptr);
+        WORKER_CLASS* wt = (WORKER_CLASS*)(caller_context->worker_ptr);
         wt->cancel(caller_context, [](CallerContext* caller, Event* event) {
             TRACE("caller: " << std::hex << caller << " event: " << std::hex << event << " type:" << event->_type << " ident: " << event->_ident);
+            caller->cancel_tsf.callBlocking(event);
             caller->tsfunction.callBlocking(event);
 //            caller->cpptsfunction_dummy.callBlocking(event);
+            // cancel_tsf should be called only once
+//            caller->cancel_tsf.release();
         });
 
         ///
@@ -400,12 +421,12 @@ stop(napi_env env, napi_callback_info info)
         CallerContext* caller_context = arg0Value.As<Napi::External<CallerContext>>().Data();
         
         /// we probably dont need to cast this to a specific worker type
-        WORKER_CLASS* wt = dynamic_cast<WORKER_CLASS*>(caller_context->worker_ptr);
+        WORKER_CLASS* wt = (WORKER_CLASS*)(caller_context->worker_ptr);
     #ifdef OPTION_JOIN_IN_STOPFUNCTION
         TRACE("about to issue stop");
         wt->stop();
         TRACE("returned from stop");
-//        caller_context->tsfunction.release();
+        caller_context->tsfunction.release();
         delete caller_context;
 //        delete wt;
     #else
@@ -437,7 +458,7 @@ Init(napi_env env, napi_value exports)
         { "demo",      NULL, demo,      NULL, NULL, NULL, napi_default, NULL },
         { "peek",      NULL, peek,      NULL, NULL, NULL, napi_default, NULL }
     };
-    CHECK(napi_define_properties(env, exports, 4, descriptors) == napi_ok);
+    CHECK(napi_define_properties(env, exports, 6, descriptors) == napi_ok);
     return exports;
 }
 NAPI_MODULE(NODE_GYP_MODULE_NAME, Init)

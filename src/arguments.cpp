@@ -68,7 +68,7 @@ StartFunctionArg0::StartFunctionArg0(Napi::Value arg0)
         throw Napi::Error::New(arg0.Env(), "arg0 does not have property names schedule");
     }
     this->_label = arg0Obj.Get("label").As<Napi::String>().Utf8Value();
-    Napi::Value schedValue = arg0Obj.Get("schedule");
+    // Napi::Value schedValue = arg0Obj.Get("schedule");
     Napi::Object schedObject = arg0Obj.Get(std::string("schedule")).As<Napi::Object>();
     Napi::Array schedArray = arg0Obj.Get(std::string("schedule")).As<Napi::Array>();
     if (!schedObject.IsObject()) {

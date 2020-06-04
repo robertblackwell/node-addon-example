@@ -27,7 +27,7 @@ typedef struct Event PlainEvent;
 ///     Napi::String ns = Napi::String::New(env, somestring).
 ///
 /// To achive this I have introduced an namespace napiExt (so as not to
-/// interfere with Napi::) and defined a new classd NapiExt::Event the extends
+/// interfere with Napi::) and defined a new class NapiExt::Event the extends
 /// napi::Value
 ///
 /// I could also ask to go the other way - from a NapiExt::Event to a plan c++
@@ -35,7 +35,7 @@ typedef struct Event PlainEvent;
 ///
 ///     Event plain_event = anapivalue.As<CppEvent>().CppEvent()
 ///
-/// To make this work I first note that anapivalue.As<CppEvent> already works by
+/// To make this work I first note that a napivalue.As<CppEvent> already works by
 /// virtue of the existing Napi:: code. The extra work needed is to implement
 /// the CppEvent() method the class NapiExt::Event. We would probably also want
 /// to be able to test a napi::Value to see if it is a NapiExt::Event. This is a

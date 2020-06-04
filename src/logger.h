@@ -6,7 +6,7 @@ namespace Logger {
 extern std::mutex log_mutex;
 }
 #ifdef NO_LOGGER
-#    define TRACE(x)
+#    define TRACE(x) do {} while (0)
 #else
 /// This is not sophisticated, nor high performabnce but it works adequately for
 /// a demo project

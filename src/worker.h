@@ -66,14 +66,6 @@ struct Job
     }
 };
 
-template <class T>
-void configure(UInt32 ticks_ms, UInt32 start_delay_ms, UInt32 stop_delay_ms)
-{
-    T::s_ticks_ms = ticks_ms;
-    T::s_start_delay_ms = start_delay_ms;
-    T::s_stop_delay_ms = stop_delay_ms;
-}
-
 template<class T>
 T* getInstance()
 {

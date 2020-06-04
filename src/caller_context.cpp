@@ -14,8 +14,7 @@
 #include <vector>
 
 CallerContext::CallerContext(Napi::Env napi_env, StartFunctionArg0 arg0)
-  : tsf_cb(nullptr)
-  , napi_env(napi_env)
+  : napi_env(napi_env)
   , startArg0(arg0)
 {}
 CallerContext::~CallerContext()
@@ -25,5 +24,5 @@ CallerContext::~CallerContext()
 void
 CallerContext::finalize(Napi::Env env, CallerContext* finalizeData)
 {
-    TRACE("");
+    TRACE("this" << std::hex << this);
 }
